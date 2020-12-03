@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 /// Widget implementation
 class MyFlutterWidget extends StatelessWidget {
