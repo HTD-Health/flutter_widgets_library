@@ -20,6 +20,10 @@ To add a widget to your app:
 
 ![example](./packages/spring_loader/readme/example.gif)  
 
+## [circle_loader](./packages/circle_loader)
+
+![example](./packages/circle_loader/readme/example.gif)  
+
 ## [dots_loader](./packages/dots_loader)
 
 ![example](./packages/dots_loader/readme/example.gif)  
