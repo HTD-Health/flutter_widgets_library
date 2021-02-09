@@ -1,4 +1,14 @@
 # Flutter widgets library
+- [Flutter widgets library](#flutter-widgets-library)
+  - [Getting started](#getting-started)
+  - [Loaders](#loaders)
+    - [`SpringLoader`](#springloader)
+    - [`CircleLoader`](#circleloader)
+    - [`DotsLoader`](#dotsloader)
+  - [Buttons](#buttons)
+    - [`FadeButton`](#fadebutton)
+
+***
 
 ## Getting started
 
@@ -8,27 +18,29 @@ To add a widget to your app:
 
     ```yaml
     dependencies:
-      fade_button:
-        git:
-          url: git@github.com:HTD-Health/flutter_widgets_library.git
-          path: packages/fade_button
+      widgets_library:
+        git: git@github.com:HTD-Health/flutter_widgets_library.git
     ```
 2. You are ready! 😉
 
 ***
-## [spring_loader](./packages/spring_loader)
 
-![example](./packages/spring_loader/readme/example.gif)  
+## Loaders
+### `SpringLoader`
 
-## [circle_loader](./packages/circle_loader)
+![example](./readme/spring_loader.gif)  
 
-![example](./packages/circle_loader/readme/example.gif)  
+### `CircleLoader`
 
-## [dots_loader](./packages/dots_loader)
+![example](./readme/circle_loader.gif)  
 
-![example](./packages/dots_loader/readme/example.gif)  
+### `DotsLoader`
 
-## [fade_button](./packages/fade_button)
+![example](./readme/dots_loader.gif)  
+
+## Buttons
+
+### `FadeButton`
 A widget that provides a fade effect when a tap gesture is performed on its child.  
 
-![example](./packages/fade_button/readme/example.gif)  
+![example](./readme/fade_button.gif)  
