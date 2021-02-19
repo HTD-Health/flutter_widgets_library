@@ -7,6 +7,9 @@
     - [`DotsLoader`](#dotsloader)
   - [Buttons](#buttons)
     - [`FadeButton`](#fadebutton)
+  - [Layouts](#layouts)
+    - [`SeparatedChildBuilderDelegate`](#separatedchildbuilderdelegate)
+      - [Example:](#example)
 
 ***
 
@@ -44,3 +47,30 @@ To add a widget to your app:
 A widget that provides a fade effect when a tap gesture is performed on its child.  
 
 ![example](./readme/fade_button.gif)  
+
+## Layouts
+
+### `SeparatedChildBuilderDelegate`
+This delegate can be used together with `SliverList` to provide a solution similar to `ListView.separated`.
+
+#### Example:
+```dart
+class SeparatedChildBuilderDelegateExample extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final items = ['item 1', 'item 2', 'item 3'];
+
+    return CustomScrollView(
+      slivers: [
+        SliverList(
+          delegate: SeparatedChildBuilderDelegate(
+            childCount: items.length,
+            itemBuilder: (BuildContext context, int index) => Text(items[index]),
+            separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 24),
+          )
+        )
+      ],
+    );
+  }
+}
+```
