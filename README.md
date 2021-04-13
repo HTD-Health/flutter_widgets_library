@@ -10,6 +10,8 @@
   - [Layouts](#layouts)
     - [`SeparatedChildBuilderDelegate`](#separatedchildbuilderdelegate)
       - [Example:](#example)
+  - [Async](#async)
+    - [`AsyncCallbackBuilder`](#asynccallbackbuilder)
 
 ***
 
@@ -74,3 +76,8 @@ class SeparatedChildBuilderDelegateExample extends StatelessWidget {
   }
 }
 ```
+
+## Async
+
+### `AsyncCallbackBuilder`
+A widget that encapsulates asynchronously running procedures with automatic state updates.
