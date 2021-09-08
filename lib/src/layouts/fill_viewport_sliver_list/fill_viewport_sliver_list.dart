@@ -6,19 +6,18 @@ import 'sliver_fill_viewport_app_bar_delegate.dart';
 class FillViewportSliverList extends StatefulWidget {
   final List<Widget> slivers;
   final double minHeight;
-  final ScrollController controller;
+  final ScrollController? controller;
   final Widget child;
 
   static const defaultHeaderHeight = 280.0;
 
   const FillViewportSliverList({
-    Key key,
-    @required this.slivers,
+    Key? key,
+    required this.slivers,
     this.controller,
     this.minHeight = defaultHeaderHeight,
-    @required this.child,
-  })  : assert(minHeight != null, 'minHeight cannot be null'),
-        super(key: key);
+    required this.child,
+  }) : super(key: key);
   @override
   _FillViewportSliverListState createState() => _FillViewportSliverListState();
 }
@@ -27,7 +26,7 @@ class _FillViewportSliverListState extends State<FillViewportSliverList> {
   double _maxExtent = 0.0;
   void setMaxExtent(double value) {
     if (value > _maxExtent) {
-      SchedulerBinding.instance.addPostFrameCallback((_) {
+      SchedulerBinding.instance!.addPostFrameCallback((_) {
         setState(() {
           _maxExtent = value;
         });

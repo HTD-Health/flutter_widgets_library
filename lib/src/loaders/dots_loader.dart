@@ -6,7 +6,7 @@ class DotsLoader extends StatefulWidget {
   /// Defines loading dots color.
   ///
   /// Defaults to `accent` color.
-  final Color color;
+  final Color? color;
 
   /// Loading dots scale.
   ///
@@ -24,7 +24,7 @@ class DotsLoader extends StatefulWidget {
 
 class _DotsLoaderState extends State<DotsLoader>
     with SingleTickerProviderStateMixin {
-  AnimationController _controller;
+  late AnimationController _controller;
 
   static const _basicIndicatorSize = 8.0;
   static const _basicSpaceBetweenDots = 5.0;
@@ -62,7 +62,7 @@ class _DotsLoaderState extends State<DotsLoader>
           color: widget.color,
         ),
       ),
-      builder: (BuildContext context, Widget child) {
+      builder: (BuildContext context, Widget? child) {
         double value1 = (_controller.value * 2).clamp(0.0, 1.0);
         bool isDot1Visible = value1 < 1.0;
 
@@ -86,7 +86,7 @@ class _DotsLoaderState extends State<DotsLoader>
                         opacity: isDot1Visible ? 1.0 : 0.0,
                       ),
                       SizedBox(width: spaceBetweenDots),
-                      child,
+                      child!,
                     ],
                   ),
                 ),

@@ -9,12 +9,12 @@ class SlidesDots extends StatelessWidget {
   final int count;
   final double cardWidth;
   final PageController controller;
-  final Color color;
+  final Color? color;
 
   const SlidesDots({
-    @required @required this.count,
-    @required this.controller,
-    @required this.cardWidth,
+    required this.count,
+    required this.controller,
+    required this.cardWidth,
     this.dotWidth = 16.0,
     this.dotHeight = 8.0,
     this.color,
@@ -43,31 +43,25 @@ class SlidesDots extends StatelessWidget {
           AnimatedBuilder(
             animation: controller,
             builder: (BuildContext context, _) {
-              double width = dotWidth;
-              double height = dotHeight;
-              double left = 0.0;
-              double top = 0.0;
-              if (controller.offset != null) {
-                final progress = (controller.offset / cardWidth)
-                    .clamp(0.0, (count - 1).toDouble());
+              final num progress = (controller.offset / cardWidth)
+                  .clamp(0.0, (count - 1).toDouble());
 
-                /// width
-                final currentSlide = progress.round();
-                final diff = ((progress - currentSlide) * 2.0).abs();
-                width = dotWidth + (diff * _slideDotSpace);
+              /// width
+              final currentSlide = progress.round();
+              final num diff = ((progress - currentSlide) * 2.0).abs();
+              final width = dotWidth + (diff * _slideDotSpace);
 
-                /// left
-                left = progress * (_slideDotSpace + dotWidth / 2);
+              /// left
+              final left = progress * (_slideDotSpace + dotWidth / 2);
 
-                /// top
-                final heightDiff = diff * _heightShrinkFactor;
-                final halfDotHeight = dotHeight * 0.5;
-                top = halfDotHeight * heightDiff;
+              /// top
+              final num heightDiff = diff * _heightShrinkFactor;
+              final halfDotHeight = dotHeight * 0.5;
+              final top = halfDotHeight * heightDiff;
 
-                /// height
-                final invertedDiff = 1.0 - heightDiff;
-                height = dotHeight * invertedDiff;
-              }
+              /// height
+              final invertedDiff = 1.0 - heightDiff;
+              final height = dotHeight * invertedDiff;
 
               return Positioned(
                 left: left,
@@ -92,10 +86,10 @@ class SlideDot extends StatelessWidget {
   final double height;
 
   const SlideDot({
-    @required this.color,
+    required this.color,
     this.height = 8,
     this.width = 8,
-  }) : assert(color != null, 'color can not be null');
+  });
 
   @override
   Widget build(BuildContext context) {

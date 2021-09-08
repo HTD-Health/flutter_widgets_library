@@ -8,23 +8,20 @@ class CircleLoader extends StatefulWidget {
   final double lineMinWidth;
   final double lineMaxWidth;
   final Duration duration;
-  final AnimationController controller;
+  final AnimationController? controller;
 
   const CircleLoader({
-    Key key,
+    Key? key,
     this.color = Colors.white,
     this.size = 25.0,
     this.duration = const Duration(milliseconds: 1500),
     this.controller,
     this.lineMinWidth = 2.0,
     this.lineMaxWidth = 4.0,
-  })  : assert(color != null, 'Color can\'t be null.'),
-        assert(lineMinWidth != null, 'lineMinWidth can\'t be null.'),
-        assert(lineMaxWidth != null, 'lineMaxWidth can\'t be null.'),
-        assert(lineMinWidth > 0, 'lineMinWidth cannot be less than or equal to 0.'),
+  })  : assert(lineMinWidth > 0,
+            'lineMinWidth cannot be less than or equal to 0.'),
         assert(lineMaxWidth >= lineMinWidth,
             'lineMaxWidth can\'t be thinner than lineMinWidth.'),
-        assert(size != null, 'size can\'t be null.'),
         super(key: key);
 
   @override
@@ -33,13 +30,13 @@ class CircleLoader extends StatefulWidget {
 
 class _CircleLoaderState extends State<CircleLoader>
     with SingleTickerProviderStateMixin {
-  AnimationController _controller;
-  Animation<double> _rotatingAnimation,
+  late AnimationController _controller;
+  late Animation<double> _rotatingAnimation,
       _circlePhaseAnimation,
       _circleProgressAnimation,
       _widthThicAnimation,
       _widthSkinnyAnimation;
-  double _lineWidthDifference;
+  late double _lineWidthDifference;
   final phaseSwift = pi * 0.2;
 
   @override
@@ -111,14 +108,14 @@ class CirclePainter extends CustomPainter {
   final double paintWidth;
   final Paint trackPaint;
   final Color trackColor;
-  final double progressPercent;
-  final double startAngle;
+  final double? progressPercent;
+  final double? startAngle;
 
   CirclePainter({
-    this.paintWidth,
+    required this.paintWidth,
     this.progressPercent,
     this.startAngle,
-    this.trackColor,
+    required this.trackColor,
   }) : trackPaint = Paint()
           ..color = trackColor
           ..style = PaintingStyle.stroke
@@ -131,8 +128,8 @@ class CirclePainter extends CustomPainter {
     final radius = (min(size.width, size.height) - paintWidth) / 2;
     canvas.drawArc(
       Rect.fromCircle(center: center, radius: radius),
-      startAngle,
-      2 * pi * progressPercent,
+      startAngle!,
+      2 * pi * progressPercent!,
       false,
       trackPaint,
     );

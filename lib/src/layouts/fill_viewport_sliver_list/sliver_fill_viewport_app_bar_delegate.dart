@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class SliverFillViewportAppBarDelegate extends SliverPersistentHeaderDelegate {
   SliverFillViewportAppBarDelegate({
-    @required this.child,
-    @required this.paddingTop,
-    @required this.heightDiff,
-    @required this.minHeight,
+    required this.child,
+    required this.paddingTop,
+    required this.heightDiff,
+    required this.minHeight,
   });
 
   final double paddingTop;

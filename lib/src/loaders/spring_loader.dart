@@ -4,36 +4,32 @@ import 'package:flutter/widgets.dart';
 
 class SpringLoader extends StatefulWidget {
   const SpringLoader({
-    Key key,
-    @required this.color,
+    Key? key,
+    required this.color,
     this.size = 35.0,
     this.duration = const Duration(milliseconds: 1500),
     this.controller,
     this.lineMinWidth = 1.6,
     this.lineMaxWidth = 5.0,
-  })  : assert(color != null, 'Color can\'t be null.'),
-        assert(lineMinWidth != null, 'lineMinWidth can\'t be null.'),
-        assert(lineMaxWidth != null, 'lineMaxWidth can\'t be null.'),
-        assert(lineMaxWidth >= lineMinWidth,
+  })  : assert(lineMaxWidth >= lineMinWidth,
             'lineMaxWidth can\'t be thinner than lineMinWidth.'),
-        assert(size != null, 'size can\'t be null.'),
         super(key: key);
   final Color color;
   final double size;
   final double lineMinWidth;
   final double lineMaxWidth;
   final Duration duration;
-  final AnimationController controller;
+  final AnimationController? controller;
   @override
   _SpringLoaderState createState() => _SpringLoaderState();
 }
 
 class _SpringLoaderState extends State<SpringLoader>
     with SingleTickerProviderStateMixin {
-  AnimationController _controller;
-  Animation<double> _animation1, _animation2;
+  late AnimationController _controller;
+  late Animation<double> _animation1, _animation2;
   final double minProgressPercentage = 0.05;
-  double widthSpan;
+  late double widthSpan;
   @override
   void initState() {
     super.initState();
@@ -87,10 +83,10 @@ class _SpringLoaderState extends State<SpringLoader>
 
 class SemiRingPainter extends CustomPainter {
   SemiRingPainter({
-    this.paintWidth,
+    required this.paintWidth,
     this.progressPercent,
     this.startAngle,
-    this.trackColor,
+    required this.trackColor,
   }) : trackPaint = Paint()
           ..color = trackColor
           ..style = PaintingStyle.stroke
@@ -99,16 +95,16 @@ class SemiRingPainter extends CustomPainter {
   final double paintWidth;
   final Paint trackPaint;
   final Color trackColor;
-  final double progressPercent;
-  final double startAngle;
+  final double? progressPercent;
+  final double? startAngle;
   @override
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height / 1.5);
     final radius = (min(size.width, size.height * 2) - paintWidth) / 2;
     canvas.drawArc(
       Rect.fromCircle(center: center, radius: radius),
-      startAngle,
-      2 * pi * progressPercent,
+      startAngle!,
+      2 * pi * progressPercent!,
       false,
       trackPaint,
     );
