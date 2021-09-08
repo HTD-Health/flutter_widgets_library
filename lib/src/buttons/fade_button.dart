@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 class FadeButton extends StatefulWidget {
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final Widget child;
 
   const FadeButton({
@@ -29,13 +29,24 @@ class _FadeButtonState extends State<FadeButton>
     super.initState();
   }
 
-  void setTextTransparent() {
+  @override
+  void didUpdateWidget(covariant FadeButton oldWidget) {
+    if (oldWidget.onPressed != null && widget.onPressed == null) {
+      /// a disabled widget should be in a solid state
+      _setSolid();
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  void _setTransparent() {
     _controller.value = 0.6;
   }
 
-  void setTextSolid() {
+  void _setSolid() {
     _controller.animateTo(1.0, duration: _fadeOutDuration);
   }
+
+  bool get isEnabled => widget.onPressed != null;
 
   @override
   Widget build(BuildContext context) {
@@ -43,9 +54,9 @@ class _FadeButtonState extends State<FadeButton>
       button: true,
       child: GestureDetector(
         onTap: widget.onPressed,
-        onTapDown: ((_) => setTextTransparent()),
-        onTapUp: ((_) => setTextSolid()),
-        onTapCancel: setTextSolid,
+        onTapDown: isEnabled ? (_) => _setTransparent() : null,
+        onTapUp: isEnabled ? (_) => _setSolid() : null,
+        onTapCancel: isEnabled ? _setSolid : null,
         child: AnimatedBuilder(
           animation: _controller,
           child: widget.child,
