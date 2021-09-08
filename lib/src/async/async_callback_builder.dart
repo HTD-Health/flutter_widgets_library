@@ -7,16 +7,17 @@ typedef AsyncFutureRunner<T> = Future<T> Function();
 /// 1. Current [BuildContext]
 /// 2. [bool] indicating whether the runner Future is in progress or not.
 /// 3. [VoidCallback] for starting the future from inside the builder.
-typedef AsyncCallbackBuilderBuilder<T> = Widget Function(BuildContext, bool, VoidCallback);
+typedef AsyncCallbackBuilderBuilder<T> = Widget Function(
+    BuildContext, bool, VoidCallback);
 
 typedef AsyncErrorHandler = void Function(dynamic, StackTrace);
 
 /// A widget that encapsulates asynchronously running procedures with automatic state updates.
 class AsyncCallbackBuilder<T> extends StatefulWidget {
   const AsyncCallbackBuilder({
-    Key key,
-    @required this.runner,
-    @required this.builder,
+    Key? key,
+    required this.runner,
+    required this.builder,
     this.onError,
   }) : super(key: key);
 
@@ -29,7 +30,7 @@ class AsyncCallbackBuilder<T> extends StatefulWidget {
   final AsyncCallbackBuilderBuilder<T> builder;
 
   /// Optional error handler.
-  final AsyncErrorHandler onError;
+  final AsyncErrorHandler? onError;
 
   @override
   _AsyncCallbackBuilderState createState() => _AsyncCallbackBuilderState<T>();
