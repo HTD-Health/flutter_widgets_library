@@ -7,6 +7,7 @@ export 'src/async/async_callback_builder.dart';
 export 'src/loaders/circle_loader.dart' show CircleLoader;
 export 'src/loaders/dots_loader.dart' show DotsLoader;
 export 'src/loaders/spring_loader.dart' show SpringLoader;
+export 'src/loaders/check_loader.dart' show CheckLoader;
 
 /// Buttons
 export 'src/buttons/fade_button.dart' show FadeButton;
@@ -20,3 +21,4 @@ export 'src/layouts/separated_child_builder_delegate/separated_child_builder_del
 
 /// Slides
 export 'src/slides/slides_dots.dart' show SlidesDots;
+
