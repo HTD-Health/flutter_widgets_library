@@ -43,6 +43,10 @@ To add a widget to your app:
 
 ![example](./readme/dots_loader.gif)  
 
+### `CheckLoader`
+
+![example](./readme/check_loader.gif)  
+
 ## Buttons
 
 ### `FadeButton`
