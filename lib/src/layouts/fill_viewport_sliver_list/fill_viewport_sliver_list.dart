@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 import 'sliver_fill_viewport_app_bar_delegate.dart';
+export 'sliver_fill_viewport_app_bar_delegate.dart';
 
 class FillViewportSliverList extends StatefulWidget {
   final List<Widget> slivers;
@@ -26,7 +27,7 @@ class _FillViewportSliverListState extends State<FillViewportSliverList> {
   double _maxExtent = 0.0;
   void setMaxExtent(double value) {
     if (value > _maxExtent) {
-      SchedulerBinding.instance!.addPostFrameCallback((_) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
         setState(() {
           _maxExtent = value;
         });
