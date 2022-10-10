@@ -99,7 +99,7 @@ Widget build(BuildContext context) {
 ```
 
 ### IsScrolled
-A simple utility widget that provides information on whether the scrollable is already scrolled or has more space to scroll.
+Widget that provides information on whether the scrollable is scrolled more than a given [offset] or has more than [offset] to scroll.
 
 Example usage:
 ```dart
