@@ -10,8 +10,10 @@
   - [Layouts](#layouts)
     - [`SeparatedChildBuilderDelegate`](#separatedchildbuilderdelegate)
       - [Example:](#example)
-  - [Async](#async)
-    - [`AsyncCallbackBuilder`](#asynccallbackbuilder)
+  - [Widgets](#widgets)
+    - [AsyncCallbackBuilder](#asynccallbackbuilder)
+    - [Delayed](#delayed)
+    - [IsScrolled](#isscrolled)
 
 ***
 
@@ -77,7 +79,43 @@ class SeparatedChildBuilderDelegateExample extends StatelessWidget {
 }
 ```
 
-## Async
+## Widgets
 
-### `AsyncCallbackBuilder`
+### AsyncCallbackBuilder
 A widget that encapsulates asynchronously running procedures with automatic state updates.
+
+### Delayed
+Widget that displays its' child after the given [duration].
+```dart
+Widget build(BuildContext context) {
+  /// The progress indicator widget will be displayed
+  /// after a delay of 2 seconds
+  return Delayed(
+    duration: Duration(seconds: 2),
+    child: CircularProgressIndicator(),
+  );
+}
+
+```
+
+### IsScrolled
+A simple utility widget that provides information on whether the scrollable is already scrolled or has more space to scroll.
+
+Example usage:
+```dart
+Widget build(BuildContext context) {
+  return IsScrolled(
+    builder: (context, controller, state) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text('The list is scrolled: ${state.isScrolled}'),
+        ),
+        body: ListView.builder(
+          controller: controller,
+          itemBuilder: (context, index) => /* *** */,
+        ),
+      );
+    },
+  );
+}
+```
