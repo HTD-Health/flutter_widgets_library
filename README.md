@@ -99,19 +99,22 @@ Widget build(BuildContext context) {
 ```
 
 ### IsScrolled
-Widget that provides information on whether the scrollable is scrolled more than a given [offset] or has more than [offset] to scroll.
+Widget that provides information on whether the scrollable is scrolled more than a given *offset* or has more than *offset* to scroll.
+  
+When there are no clients (the controller is not attached to the scrolling widget), the state is all set to false. Since there is no scrollable, nothing can/or is scrolled.
+The same applies to the *SingleChildScrollView* widget with smaller content that its size.
 
 Example usage:
 ```dart
 Widget build(BuildContext context) {
   return IsScrolled(
-    builder: (context, controller, state) {
+    builder: (context, scrollController, scrollState) {
       return Scaffold(
         appBar: AppBar(
-          title: Text('The list is scrolled: ${state.isScrolled}'),
+          title: Text('The list is scrolled: ${scrollState.isScrolled}'),
         ),
         body: ListView.builder(
-          controller: controller,
+          controller: scrollController,
           itemBuilder: (context, index) => /* *** */,
         ),
       );
