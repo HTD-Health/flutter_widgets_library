@@ -1,20 +1,45 @@
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 
+/// [IsScrolled] builder method definition
 typedef IsScrolledWidgetBuilder = Widget Function(
   BuildContext context,
-  ScrollController controller,
-  IsScrolledState state,
+  ScrollController scrollController,
+  IsScrolledState scrollState,
 );
 
+/// Containt the information about the current scroll state.
+///
+/// Used by the [IsScrolled] widget.
 class IsScrolledState {
+  /// Whether the scrollable is scrolled
   final bool isScrolled;
+
+  /// Whether there is still a distance that can be scrolled
   final bool hasMoreToScroll;
 
-  IsScrolledState({
+  const IsScrolledState({
     required this.isScrolled,
     required this.hasMoreToScroll,
   });
+
+  @override
+  bool operator ==(Object other) {
+    if (other.runtimeType != runtimeType) {
+      return false;
+    }
+    return other is IsScrolledState &&
+        other.isScrolled == isScrolled &&
+        other.hasMoreToScroll == hasMoreToScroll;
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, isScrolled, hasMoreToScroll);
+
+  @override
+  String toString() {
+    return 'IsScrolledState { isScrolled: $isScrolled, hasMoreToScroll: $hasMoreToScroll }';
+  }
 }
 
 /// Widget that provides information on whether the scrollable is
@@ -52,7 +77,7 @@ class IsScrolled extends StatefulWidget {
 }
 
 class _IsScrolledState2 extends State<IsScrolled> {
-  var _state = IsScrolledState(
+  var _state = const IsScrolledState(
     hasMoreToScroll: true,
     isScrolled: false,
   );
@@ -115,7 +140,29 @@ class _IsScrolledState2 extends State<IsScrolled> {
   }
 
   void _onControllerUpdate() {
-    _onMetricsChanged(controller.position);
+    if (controller.hasClients) {
+      /// Calculate the state values.
+      _onMetricsChanged(controller.position);
+    } else {
+      /// When there are no clients, the state is all set to false.
+      /// Since there is no scrollable, nothing can/or is scrolled.
+      _setNoScrollableState();
+    }
+  }
+
+  void _setNoScrollableState() {
+    const noScrollableState = const IsScrolledState(
+      hasMoreToScroll: false,
+      isScrolled: false,
+    );
+
+    final hasChange = _state != noScrollableState;
+
+    if (hasChange) {
+      setState(() {
+        _state = noScrollableState;
+      });
+    }
   }
 
   void _onMetricsChanged(ScrollMetrics metrics) {
