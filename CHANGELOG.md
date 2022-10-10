@@ -1,3 +1,5 @@
+## **0.7.1** - 10 oct 2022.
+* Fixed `IsScrolled` widget no clients state.
 ## **0.7.0** - 10 oct 2022.
 * Added the `IsScrolled` widget.
 * Updated readme file.

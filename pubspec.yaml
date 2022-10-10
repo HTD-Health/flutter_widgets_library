@@ -1,6 +1,6 @@
 name: widgets_library
 description: Widgets library
-version: 0.7.0
+version: 0.7.1
 publish_to: "none"
 
 environment:
