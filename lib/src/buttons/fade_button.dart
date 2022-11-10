@@ -4,11 +4,19 @@ class FadeButton extends StatefulWidget {
   final VoidCallback? onPressed;
   final Widget child;
 
+  /// Determines opacity level invoked after on press action
+  final double pressedOpacity;
+
   const FadeButton({
     Key? key,
     required this.child,
     required this.onPressed,
-  }) : super(key: key);
+    this.pressedOpacity = 0.4,
+  })  : assert(
+          pressedOpacity >= 0.0 && pressedOpacity <= 1.0,
+          'Pressed opacity value should be between 0.0 and 1.0',
+        ),
+        super(key: key);
 
   @override
   _FadeButtonState createState() => _FadeButtonState();
@@ -39,7 +47,7 @@ class _FadeButtonState extends State<FadeButton>
   }
 
   void _setTransparent() {
-    _controller.value = 0.6;
+    _controller.value = widget.pressedOpacity;
   }
 
   void _setSolid() {
