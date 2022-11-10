@@ -7,11 +7,18 @@ class FadeButton extends StatefulWidget {
   /// Determines opacity level invoked after on press action
   final double pressedOpacity;
 
+  /// Determines opacity level during focus action
+  final double focusedOpacity;
+
+  final FocusNode? focusNode;
+
   const FadeButton({
     Key? key,
     required this.child,
     required this.onPressed,
-    this.pressedOpacity = 0.4,
+    this.pressedOpacity = 0.2,
+    this.focusedOpacity = 0.6,
+    this.focusNode,
   })  : assert(
           pressedOpacity >= 0.0 && pressedOpacity <= 1.0,
           'Pressed opacity value should be between 0.0 and 1.0',
@@ -28,12 +35,14 @@ class _FadeButtonState extends State<FadeButton>
   static final _buttonTween = Tween<double>(begin: 1.0);
   static final _buttonCurveTween = CurveTween(curve: Curves.decelerate);
   static const _fadeOutDuration = const Duration(milliseconds: 150);
+  late bool isFocused;
 
   @override
   void initState() {
     _controller = AnimationController(vsync: this, value: 1.0)
       ..drive(_buttonTween)
       ..drive(_buttonCurveTween);
+    isFocused = widget.focusNode?.hasPrimaryFocus ?? false;
     super.initState();
   }
 
@@ -60,17 +69,25 @@ class _FadeButtonState extends State<FadeButton>
   Widget build(BuildContext context) {
     Widget result = Semantics(
       button: true,
-      child: GestureDetector(
-        onTap: widget.onPressed,
-        onTapDown: isEnabled ? (_) => _setTransparent() : null,
-        onTapUp: isEnabled ? (_) => _setSolid() : null,
-        onTapCancel: isEnabled ? _setSolid : null,
-        child: AnimatedBuilder(
-          animation: _controller,
-          child: widget.child,
-          builder: (BuildContext context, Widget? child) => Opacity(
-            opacity: _controller.value,
-            child: child,
+      child: FocusableActionDetector(
+        onShowFocusHighlight: (value) {
+          setState(() {
+            isFocused = value;
+          });
+        },
+        focusNode: widget.focusNode,
+        child: GestureDetector(
+          onTap: widget.onPressed,
+          onTapDown: isEnabled ? (_) => _setTransparent() : null,
+          onTapUp: isEnabled ? (_) => _setSolid() : null,
+          onTapCancel: isEnabled ? _setSolid : null,
+          child: AnimatedBuilder(
+            animation: _controller,
+            child: widget.child,
+            builder: (BuildContext context, Widget? child) => Opacity(
+              opacity: isFocused ? widget.focusedOpacity : _controller.value,
+              child: child,
+            ),
           ),
         ),
       ),
