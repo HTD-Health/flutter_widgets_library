@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 import 'package:widgets_library/widgets_library.dart';
 
 void main() {
-  runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  RendererBinding.instance.setSemanticsEnabled(true);
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -15,18 +20,34 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: ExamplePage(),
+      home: const ExamplePage(),
     );
   }
 }
 
 class ExamplePage extends StatelessWidget {
+  const ExamplePage({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: CircleLoader(
-          color: Colors.blue,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextButton(
+              onPressed: () {
+                print('text pressed');
+              },
+              child: const Text('TextButton'),
+            ),
+            FadeButton(
+              onPressed: () {
+                print('fade pressed');
+              },
+              child: const Text('FadeButton'),
+            ),
+          ],
         ),
       ),
     );
