@@ -13,6 +13,7 @@ dependencies:
     sdk: flutter
   widgets_library:
     path: ../
+  flutter_lints:
 
 flutter:
   uses-material-design: true

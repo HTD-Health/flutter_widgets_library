@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 class FadeButton extends StatefulWidget {
@@ -29,20 +30,20 @@ class FadeButton extends StatefulWidget {
   _FadeButtonState createState() => _FadeButtonState();
 }
 
-class _FadeButtonState extends State<FadeButton>
-    with SingleTickerProviderStateMixin {
+class _FadeButtonState extends State<FadeButton> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   static final _buttonTween = Tween<double>(begin: 1.0);
   static final _buttonCurveTween = CurveTween(curve: Curves.decelerate);
   static const _fadeOutDuration = const Duration(milliseconds: 150);
-  late bool isFocused;
+  late bool _isFocused;
+  bool _isHovered = false;
 
   @override
   void initState() {
     _controller = AnimationController(vsync: this, value: 1.0)
       ..drive(_buttonTween)
       ..drive(_buttonCurveTween);
-    isFocused = widget.focusNode?.hasPrimaryFocus ?? false;
+    _isFocused = widget.focusNode?.hasPrimaryFocus ?? false;
     super.initState();
   }
 
@@ -65,28 +66,51 @@ class _FadeButtonState extends State<FadeButton>
 
   bool get isEnabled => widget.onPressed != null;
 
+  final Map<Type, Action<Intent>>? _actions = {
+    VoidCallbackIntent: CallbackAction<VoidCallbackIntent>(
+      onInvoke: (intent) => intent.callback(),
+    ),
+  };
+
+  late final Map<ShortcutActivator, Intent>? _shortcuts = {
+    SingleActivator(LogicalKeyboardKey.enter): VoidCallbackIntent(() {
+      widget.onPressed?.call();
+    }),
+  };
+
   @override
   Widget build(BuildContext context) {
     Widget result = Semantics(
+      container: true,
       button: true,
       child: FocusableActionDetector(
+        actions: _actions,
+        shortcuts: _shortcuts,
         onShowFocusHighlight: (value) {
           setState(() {
-            isFocused = value;
+            _isFocused = value;
+          });
+        },
+        onShowHoverHighlight: (value) {
+          setState(() {
+            _isHovered = value;
           });
         },
         focusNode: widget.focusNode,
-        child: GestureDetector(
-          onTap: widget.onPressed,
-          onTapDown: isEnabled ? (_) => _setTransparent() : null,
-          onTapUp: isEnabled ? (_) => _setSolid() : null,
-          onTapCancel: isEnabled ? _setSolid : null,
-          child: AnimatedBuilder(
-            animation: _controller,
-            child: widget.child,
-            builder: (BuildContext context, Widget? child) => Opacity(
-              opacity: isFocused ? widget.focusedOpacity : _controller.value,
-              child: child,
+        child: MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: GestureDetector(
+            onTap: widget.onPressed,
+            onTapDown: isEnabled ? (_) => _setTransparent() : null,
+            onTapUp: isEnabled ? (_) => _setSolid() : null,
+            onTapCancel: isEnabled ? _setSolid : null,
+            child: AnimatedBuilder(
+              animation: _controller,
+              child: widget.child,
+              builder: (BuildContext context, Widget? child) => Opacity(
+                opacity: _isFocused || _isHovered ? widget.focusedOpacity : _controller.value,
+                child: child,
+              ),
             ),
           ),
         ),
