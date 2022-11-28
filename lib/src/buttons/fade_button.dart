@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 
 class FadeButton extends StatefulWidget {
   final VoidCallback? onPressed;
+  final HitTestBehavior behavior;
   final Widget child;
 
   /// Determines opacity level invoked after on press action
@@ -17,6 +18,7 @@ class FadeButton extends StatefulWidget {
     Key? key,
     required this.child,
     required this.onPressed,
+    this.behavior = HitTestBehavior.opaque,
     this.pressedOpacity = 0.2,
     this.focusedOpacity = 0.6,
     this.focusNode,
@@ -30,7 +32,8 @@ class FadeButton extends StatefulWidget {
   _FadeButtonState createState() => _FadeButtonState();
 }
 
-class _FadeButtonState extends State<FadeButton> with SingleTickerProviderStateMixin {
+class _FadeButtonState extends State<FadeButton>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   static final _buttonTween = Tween<double>(begin: 1.0);
   static final _buttonCurveTween = CurveTween(curve: Curves.decelerate);
@@ -100,6 +103,7 @@ class _FadeButtonState extends State<FadeButton> with SingleTickerProviderStateM
         child: MouseRegion(
           cursor: SystemMouseCursors.click,
           child: GestureDetector(
+            behavior: widget.behavior,
             onTap: widget.onPressed,
             onTapDown: isEnabled ? (_) => _setTransparent() : null,
             onTapUp: isEnabled ? (_) => _setSolid() : null,
@@ -108,7 +112,9 @@ class _FadeButtonState extends State<FadeButton> with SingleTickerProviderStateM
               animation: _controller,
               child: widget.child,
               builder: (BuildContext context, Widget? child) => Opacity(
-                opacity: _isFocused || _isHovered ? widget.focusedOpacity : _controller.value,
+                opacity: _isFocused || _isHovered
+                    ? widget.focusedOpacity
+                    : _controller.value,
                 child: child,
               ),
             ),

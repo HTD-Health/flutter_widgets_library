@@ -1,3 +1,5 @@
+## **0.7.3** - 28 nov 2022.
+* The default HitTestBehavior for the FadeButton widget has been changed from *HitTestBehavior.deferToChild* to *HitTestBehavior.opaque*. It can still be customized via the "*behavior*" argument.
 ## **0.7.2** - 14 nov 2022.
 * FadeButton now supports hovered/focused states.
 * FadeButton now supports pressing enter while focused to trigger the action.
