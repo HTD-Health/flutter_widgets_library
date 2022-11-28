@@ -1,3 +1,6 @@
+## **0.7.2** - 14 nov 2022.
+* FadeButton now supports hovered/focused states.
+* FadeButton now supports pressing enter while focused to trigger the action.
 ## **0.7.1** - 10 oct 2022.
 * Fixed `IsScrolled` widget no clients state.
 ## **0.7.0** - 10 oct 2022.
