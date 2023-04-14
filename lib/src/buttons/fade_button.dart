@@ -3,6 +3,8 @@ import 'package:flutter/widgets.dart';
 
 class FadeButton extends StatefulWidget {
   final VoidCallback? onPressed;
+  final void Function(bool)? onFocusChanged;
+  final void Function(bool)? onHoverChanged;
   final HitTestBehavior behavior;
   final Widget child;
 
@@ -21,6 +23,8 @@ class FadeButton extends StatefulWidget {
     this.behavior = HitTestBehavior.opaque,
     this.pressedOpacity = 0.2,
     this.focusedOpacity = 0.6,
+    this.onFocusChanged,
+    this.onHoverChanged,
     this.focusNode,
   })  : assert(
           pressedOpacity >= 0.0 && pressedOpacity <= 1.0,
@@ -93,11 +97,13 @@ class _FadeButtonState extends State<FadeButton>
           setState(() {
             _isFocused = value;
           });
+          widget.onFocusChanged?.call(value);
         },
         onShowHoverHighlight: (value) {
           setState(() {
             _isHovered = value;
           });
+          widget.onHoverChanged?.call(value);
         },
         focusNode: widget.focusNode,
         child: MouseRegion(
