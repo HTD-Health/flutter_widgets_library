@@ -47,6 +47,8 @@ class _FadeButtonState extends State<FadeButton>
   static const _fadeOutDuration = const Duration(milliseconds: 150);
   late bool _isFocused;
   bool _isHovered = false;
+  bool _isTapped = false;
+  bool get _showFocussedOpacity=>(_isFocused || _isHovered) && !_isTapped;
 
   @override
   void initState() {
@@ -72,6 +74,24 @@ class _FadeButtonState extends State<FadeButton>
 
   void _setSolid() {
     _controller.animateTo(1.0, duration: _fadeOutDuration);
+  }
+
+  void _onTapDown() {
+    _isTapped = true;
+    setState(() {});
+    _setTransparent();
+  }
+
+  void _onTapUp() {
+    _isTapped = false;
+    setState(() {});
+    _setSolid();
+  }
+
+  void _onTapCancel() {
+    _isTapped = false;
+    setState(() {});
+    _setSolid();
   }
 
   bool get isEnabled => widget.onPressed != null;
@@ -115,14 +135,14 @@ class _FadeButtonState extends State<FadeButton>
           child: GestureDetector(
             behavior: widget.behavior,
             onTap: widget.onPressed,
-            onTapDown: isEnabled ? (_) => _setTransparent() : null,
-            onTapUp: isEnabled ? (_) => _setSolid() : null,
-            onTapCancel: isEnabled ? _setSolid : null,
+            onTapDown: isEnabled ? (_) => _onTapDown() : null,
+            onTapUp: isEnabled ? (_) => _onTapUp() : null,
+            onTapCancel: isEnabled ? _onTapCancel : null,
             child: AnimatedBuilder(
               animation: _controller,
               child: widget.child,
               builder: (BuildContext context, Widget? child) => Opacity(
-                opacity: _isFocused || _isHovered
+                opacity: _showFocussedOpacity
                     ? widget.focusedOpacity
                     : _controller.value,
                 child: child,
