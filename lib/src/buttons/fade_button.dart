@@ -16,6 +16,8 @@ class FadeButton extends StatefulWidget {
 
   final FocusNode? focusNode;
 
+  final String? semanticsLabel;
+
   const FadeButton({
     Key? key,
     required this.child,
@@ -26,6 +28,7 @@ class FadeButton extends StatefulWidget {
     this.onFocusChanged,
     this.onHoverChanged,
     this.focusNode,
+    this.semanticsLabel,
   })  : assert(
           pressedOpacity >= 0.0 && pressedOpacity <= 1.0,
           'Pressed opacity value should be between 0.0 and 1.0',
@@ -108,6 +111,7 @@ class _FadeButtonState extends State<FadeButton>
   @override
   Widget build(BuildContext context) {
     Widget result = Semantics(
+      label: widget.semanticsLabel,
       container: true,
       button: true,
       child: FocusableActionDetector(
