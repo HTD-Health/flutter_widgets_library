@@ -9,10 +9,15 @@ class Delayed extends StatefulWidget {
   final Duration animationDuration;
   final Curve curve;
 
+  /// If it is set, the child is laid out in all states,
+  /// only the visibility is changed.
+  final bool maintainState;
+
   const Delayed({
     super.key,
     required this.child,
     required this.duration,
+    this.maintainState = false,
     this.animationDuration = const Duration(milliseconds: 300),
     this.curve = Curves.linear,
   });
@@ -42,7 +47,22 @@ class _DelayedState extends State<Delayed> {
     return AnimatedSwitcher(
       duration: widget.animationDuration,
       switchInCurve: widget.curve,
-      child: _isVisible ? widget.child : null,
+      child: widget.maintainState
+          ? KeyedSubtree(
+              key: ValueKey(_isVisible),
+              child: Visibility(
+                visible: _isVisible,
+                maintainState: true,
+                maintainSize: true,
+                maintainAnimation: true,
+                maintainInteractivity: false,
+                maintainSemantics: false,
+                child: widget.child,
+              ),
+            )
+          : _isVisible
+              ? widget.child
+              : null,
     );
   }
 
