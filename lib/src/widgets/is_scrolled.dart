@@ -8,7 +8,7 @@ typedef IsScrolledWidgetBuilder = Widget Function(
   IsScrolledState scrollState,
 );
 
-/// Containt the information about the current scroll state.
+/// Contains the information about the current scroll state.
 ///
 /// Used by the [IsScrolled] widget.
 class IsScrolledState {
@@ -49,7 +49,7 @@ class IsScrolled extends StatefulWidget {
   /// Widget builder
   final IsScrolledWidgetBuilder builder;
 
-  /// The scroll controller on wich the IsScrolled logic is based on.
+  /// The scroll controller on which the IsScrolled logic is based on.
   ///
   /// If external controller is not provided,
   /// it will be automatically by this widget created.
@@ -141,8 +141,9 @@ class _IsScrolledState2 extends State<IsScrolled> {
 
   void _onControllerUpdate() {
     if (controller.hasClients) {
-      /// Calculate the state values.
-      _onMetricsChanged(controller.position);
+      // Use the last attached position to calculate the status
+      final position = controller.positions.last;
+      _onMetricsChanged(position);
     } else {
       /// When there are no clients, the state is all set to false.
       /// Since there is no scrollable, nothing can/or is scrolled.
