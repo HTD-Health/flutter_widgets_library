@@ -1,10 +1,10 @@
 name: widgets_library
 description: Widgets library
-version: 0.7.8
+version: 0.7.9
 publish_to: "none"
 
 environment:
-  sdk: ">=2.18.0 <3.0.0"
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
   flutter:
